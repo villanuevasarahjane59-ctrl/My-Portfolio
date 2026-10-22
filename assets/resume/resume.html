@@ -1,0 +1,236 @@
+<!doctype html>
+<!--
+  Source for public/My-Resume.pdf. Layout follows assets/design-references/resumeReference.jfif.
+  Regenerate with headless Chrome:
+    chrome --headless=new --no-pdf-header-footer --print-to-pdf=public/My-Resume.pdf assets/resume/resume.html
+  No phone number on purpose: this PDF is published on the portfolio.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sarah Jane E. Villanueva - Resume</title>
+    <style>
+      @font-face { font-family: "Poppins"; font-weight: 300; src: url("../../app/fonts/poppins-300.woff2") format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 400; src: url("../../app/fonts/poppins-400.woff2") format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 500; src: url("../../app/fonts/poppins-500.woff2") format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 600; src: url("../../app/fonts/poppins-600.woff2") format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 700; src: url("../../app/fonts/poppins-700.woff2") format("woff2"); }
+
+      @page { size: A4; margin: 0; }
+
+      :root {
+        --ink: #2b3640;     /* slate, as in the reference */
+        --text: #3d4852;
+        --muted: #5f6b76;
+        --rule: #2b3640;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html, body { width: 210mm; height: 297mm; }
+
+      body {
+        font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+        font-size: 9pt;
+        line-height: 1.45;
+        color: var(--text);
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page { padding: 13mm 15mm 10mm; height: 297mm; display: flex; flex-direction: column; }
+
+      /* Header */
+      header {
+        display: flex;
+        align-items: center;
+        gap: 9mm;
+        padding-bottom: 5mm;
+        border-bottom: 1.6pt solid var(--rule);
+      }
+      h1 { font-size: 26pt; font-weight: 700; line-height: 1.05; letter-spacing: 0.01em; color: var(--ink); text-transform: uppercase; }
+      .role { margin-top: 2mm; font-size: 13pt; font-weight: 400; letter-spacing: 0.12em; color: var(--ink); text-transform: uppercase; }
+      .photo {
+        width: 32mm; height: 32mm; border-radius: 2mm; overflow: hidden; flex-shrink: 0;
+        border: 1.6pt solid var(--ink); background: #fff;
+      }
+      .photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+      /* Columns */
+      .columns { display: grid; grid-template-columns: 58mm 1fr; gap: 9mm; margin-top: 6.5mm; flex: 1; }
+
+      h2 {
+        font-size: 12pt; font-weight: 700; letter-spacing: 0.16em; color: var(--ink); text-transform: uppercase;
+        padding-bottom: 1.6mm; border-bottom: 1pt solid var(--rule); margin-bottom: 2.6mm;
+      }
+
+      /* Left column */
+      .side section + section { margin-top: 6mm; }
+      .contact li { display: flex; align-items: flex-start; gap: 3mm; list-style: none; margin-bottom: 2.6mm; word-break: break-word; }
+      .contact svg { width: 4.2mm; height: 4.2mm; flex-shrink: 0; margin-top: 0.4mm; color: var(--ink); }
+      .bullets { padding-left: 4.5mm; }
+      .bullets li { margin-bottom: 1.4mm; }
+      .bullets li::marker { color: var(--ink); }
+      .kv { display: grid; grid-template-columns: auto 1fr; column-gap: 2mm; }
+      .kv dt { font-weight: 600; color: var(--ink); }
+      .kv dd + dt { margin-top: 0.8mm; }
+      .ref-name { font-weight: 600; color: var(--ink); font-size: 9.6pt; margin-bottom: 1.2mm; }
+
+      /* Right column timeline */
+      .main { position: relative; padding-left: 13mm; }
+      .main::before {
+        content: ""; position: absolute; left: 3.6mm; top: 3mm; bottom: 2mm; width: 0.9pt; background: var(--ink);
+      }
+      .main section { position: relative; }
+      .main section + section { margin-top: 5mm; }
+      .badge {
+        position: absolute; left: -13mm; top: -0.6mm; width: 8mm; height: 8mm; border-radius: 50%;
+        background: var(--ink); color: #fff; display: grid; place-items: center;
+      }
+      .badge svg { width: 4.4mm; height: 4.4mm; }
+      .entry { position: relative; }
+      .entry + .entry { margin-top: 2.6mm; }
+      .entry::before {
+        content: ""; position: absolute; left: -10.4mm; top: 1.6mm; width: 2.4mm; height: 2.4mm; border-radius: 50%;
+        background: #fff; border: 0.9pt solid var(--ink);
+      }
+      .entry-head { display: flex; justify-content: space-between; gap: 4mm; align-items: baseline; }
+      .entry-title { font-size: 10pt; font-weight: 600; color: var(--ink); }
+      .entry-date { font-size: 8.6pt; color: var(--muted); white-space: nowrap; }
+      .entry-sub { font-size: 9pt; color: var(--text); }
+      .entry ul { margin-top: 1mm; padding-left: 4.5mm; }
+      .entry li { margin-bottom: 0.5mm; text-align: justify; }
+      .profile p { text-align: justify; }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <div class="photo"><img src="../../public/images/profile.png" alt="Sarah Jane E. Villanueva" /></div>
+        <div>
+          <h1>Sarah Jane E.<br />Villanueva</h1>
+          <p class="role">UI Designer</p>
+        </div>
+      </header>
+
+      <div class="columns">
+        <aside class="side">
+          <section>
+            <h2>Contact</h2>
+            <ul class="contact">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                <span>villanuevasarahjane59<br />@gmail.com</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
+                <span>Masagaosao, Kawayan, Biliran</span>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Skills</h2>
+            <ul class="bullets">
+              <li>UI Design</li>
+              <li>Computer Literate</li>
+              <li>Microsoft Office (Word, PowerPoint, Publisher)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Languages</h2>
+            <ul class="bullets">
+              <li>Cebuano</li>
+              <li>Filipino</li>
+              <li>English</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Personal Info</h2>
+            <dl class="kv">
+              <dt>Nationality:</dt>
+              <dd>Filipino</dd>
+            </dl>
+          </section>
+
+          <section>
+            <h2>Character Reference</h2>
+            <p class="ref-name">Shiela Joyce Villanueva</p>
+            <dl class="kv">
+              <dt>Email:</dt>
+              <dd>villanuevashielajoyce<wbr />@gmail.com</dd>
+              <dt>Address:</dt>
+              <dd>Masagaosao, Kawayan</dd>
+            </dl>
+          </section>
+        </aside>
+
+        <main class="main">
+          <section class="profile">
+            <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg></span>
+            <h2>Profile</h2>
+            <p>
+              I am a 4th year Computer Science student at Biliran Province State University with a passion for
+              application design. I have experience in designing layouts, and I'm always looking for ways to learn
+              and create better digital experiences.
+            </p>
+          </section>
+
+          <section>
+            <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg></span>
+            <h2>Projects</h2>
+            <div class="entry">
+              <div class="entry-head"><span class="entry-title">HERBMED</span><span class="entry-date">2025</span></div>
+              <p class="entry-sub">Herbal Medicine Web Application · UI Designer (Solo)</p>
+              <ul>
+                <li>A web application that combines tradition and science, helping people explore the healing power of herbs and discover natural remedies.</li>
+                <li>Designed the interface, from the glass-style login screen to the homepage and herbal remedy directory with profile pages, categories and search.</li>
+              </ul>
+            </div>
+            <div class="entry">
+              <div class="entry-head"><span class="entry-title">Voting System</span></div>
+              <p class="entry-sub">E-Voting Desktop Application · UI Designer (Solo)</p>
+              <ul>
+                <li>An e-voting system that serves as a new technology for voters, with the aim of improving the electoral process.</li>
+                <li>Designed the admin login and the "Vote Wisely" ballot for SK Chairman and SK Kagawad, with results and vote count views.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z" /><path d="M6 12v5c3 3 9 3 12 0v-5M22 10v6" /></svg></span>
+            <h2>Education</h2>
+            <div class="entry">
+              <div class="entry-head"><span class="entry-title">Bachelor of Science in Computer Science</span><span class="entry-date">4th Year - Present</span></div>
+              <p class="entry-sub">School of Technology and Computer Studies | Biliran Province State University</p>
+            </div>
+          </section>
+
+          <section>
+            <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6" /><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11" /></svg></span>
+            <h2>Certificates</h2>
+            <div class="entry">
+              <div class="entry-head"><span class="entry-title">Introduction to AI Literacy and Responsible Use</span><span class="entry-date">Sep 2026</span></div>
+              <p class="entry-sub">Micro-credential | CHED ACHIEVE × Mapúa University</p>
+            </div>
+            <div class="entry">
+              <div class="entry-head"><span class="entry-title">Networking Basics</span><span class="entry-date">May 2026</span></div>
+              <p class="entry-sub">Course Completion | Cisco Networking Academy</p>
+            </div>
+            <div class="entry">
+              <div class="entry-head"><span class="entry-title">Thesis Preparation with the Use of Trending Tools and Industry Practices</span><span class="entry-date">Oct 2025</span></div>
+              <p class="entry-sub">Seminar-Workshop | BiPSU Computer Science Society</p>
+            </div>
+            <div class="entry">
+              <div class="entry-head"><span class="entry-title">You're In A Relationship With A Machine, How Healthy Is It?</span><span class="entry-date">Nov 2024</span></div>
+              <p class="entry-sub">Webinar | Gartner</p>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
