@@ -1,12 +1,13 @@
 import Image from "next/image";
 
 import { certificates } from "@/data/portfolio";
+import { Carousel } from "./Carousel";
 import { Icon } from "./Icon";
 import { SectionHeading } from "./SectionHeading";
 
 export function Certificates() {
   return (
-    <section id="certificates" className="py-24 sm:py-28">
+    <section id="certificates" className="overflow-x-clip py-24 sm:py-28">
       <div className="shell">
         <SectionHeading
           eyebrow="Certificates"
@@ -14,12 +15,13 @@ export function Certificates() {
           description="Trainings, seminars and courses I've completed to keep learning beyond the classroom."
         />
 
-        <div className="mt-14 grid gap-8 md:grid-cols-2">
+        <div className="mt-14">
+          <Carousel label="Certificates" itemLabel="Certificate" size="narrow" align="stretch">
           {certificates.map((cert) => (
             <article
               key={cert.title}
               data-reveal
-              className="group flex flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-card transition hover:-translate-y-1 hover:border-accent/60"
+              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-card transition hover:-translate-y-1 hover:border-accent/60"
             >
               <a
                 href={cert.href}
@@ -32,7 +34,7 @@ export function Certificates() {
                   src={cert.image}
                   alt={`Certificate: ${cert.title}`}
                   fill
-                  sizes="(min-width: 768px) 560px, 100vw"
+                  sizes="(min-width: 1024px) 540px, (min-width: 640px) 62vw, 86vw"
                   placeholder="blur"
                   className="object-contain p-3 transition duration-500 group-hover:scale-[1.02]"
                 />
@@ -74,6 +76,7 @@ export function Certificates() {
               </div>
             </article>
           ))}
+          </Carousel>
         </div>
       </div>
     </section>

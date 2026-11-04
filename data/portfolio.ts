@@ -1,12 +1,17 @@
 import type { StaticImageData } from "next/image";
 
-import logoMark from "@/public/images/logo-mark.svg";
 import profilePhoto from "@/public/images/profile.png";
 import herbmedPoster from "@/public/images/projects/herbmed-poster.jpg";
 import herbmedLogin from "@/public/images/projects/herbmed-login.png";
 import herbmedHomepage from "@/public/images/projects/herbmed-homepage.png";
 import votingLogin from "@/public/images/projects/voting-login.png";
 import votingBallot from "@/public/images/projects/voting-ballot.png";
+import scholarshipDesktop from "@/public/images/projects/scholarship project-desktop.png";
+import scholarshipMobile from "@/public/images/projects/scholarship project-mobile.png";
+import scholarshipInternal from "@/public/images/projects/scholarship project-internal programs.png";
+import scholarshipInternalMobile from "@/public/images/projects/scholarship project-internal programs mobile.jpg";
+import scholarshipExternal from "@/public/images/projects/scholarship project-external programs.png";
+import scholarshipExternalMobile from "@/public/images/projects/scholarship project-external programs mobile.jpg";
 import certAiLiteracy from "@/public/images/certificates/ai-literacy-responsible-use.jpg";
 import certCisco from "@/public/images/certificates/cisco-networking-basics.jpg";
 import certThesisSeminar from "@/public/images/certificates/bipsu-thesis-preparation-seminar.jpg";
@@ -19,7 +24,6 @@ export const profile = {
   shortName: "Sarah Jane",
   role: "UI Designer",
   tagline: "UI Designer",
-  logo: logoMark,
   intro:
     "A Computer Science student at Biliran Province State University with a passion for application design and crafting clean, user-friendly digital layouts.",
   photo: profilePhoto,
@@ -138,8 +142,6 @@ export type Project = {
   role: string;
   type: string;
   description: string;
-  features: string[];
-  tags: string[];
   screens: ProjectScreen[];
 };
 
@@ -152,13 +154,6 @@ export const projects: Project[] = [
     type: "Solo Project",
     description:
       "A web application that combines tradition and science, helping people explore the healing power of herbs and discover natural remedies. I designed the user interface, from the glass-style login screen to the homepage and herbal remedy directory, with a fresh, nature-inspired look.",
-    features: [
-      "Detailed herbal profile pages",
-      "Remedies organized by category, like Cold & Flu and Skin Allergy Relief",
-      "Searchable herbal medicine directory",
-      "Responsive layouts for desktop, tablet and mobile",
-    ],
-    tags: ["UI Design", "Web Application", "Responsive Layout"],
     screens: [
       {
         caption: "Project poster",
@@ -190,13 +185,6 @@ export const projects: Project[] = [
     type: "Solo Project",
     description:
       "An e-voting system that serves as a new technology for voters, with the aim of improving the electoral process. I designed its interface, from the admin login screen to the \"Vote Wisely\" ballot for SK Chairman and SK Kagawad candidates.",
-    features: [
-      "Admin login with a show-password option",
-      "Ballot for SK Chairman and SK Kagawad candidates",
-      "Results table showing the votes for each candidate",
-      "Vote count view to track who has voted",
-    ],
-    tags: ["UI Design", "Desktop Application", "E-Voting"],
     screens: [
       {
         caption: "Admin login",
@@ -210,6 +198,49 @@ export const projects: Project[] = [
         desktop: {
           src: votingBallot,
           alt: "Voting System 'Vote Wisely' ballot with SK Chairman and SK Kagawad candidates and results tables",
+        },
+      },
+    ],
+  },
+  {
+    title: "BiPSU SRMS",
+    subtitle: "Scholarship Record Management System with Eligibility Recommender",
+    role: "UI Designer",
+    type: "Team Project",
+    description:
+      "A scholarship portal for Biliran Province State University where students can explore the available internal and external scholarship programs, check if they're eligible, and register or sign in to apply.",
+    screens: [
+      {
+        caption: "Homepage",
+        desktop: {
+          src: scholarshipDesktop,
+          alt: "BiPSU SRMS homepage with the university seal over a campus photo and the headline 'Scholarship Programs'",
+        },
+        mobile: {
+          src: scholarshipMobile,
+          alt: "BiPSU SRMS homepage on a phone with Register and Sign in buttons",
+        },
+      },
+      {
+        caption: "Internal Scholarships",
+        desktop: {
+          src: scholarshipInternal,
+          alt: "BiPSU SRMS Internal Scholarships page with Academic, Affirmative Action and Sports scholarship cards",
+        },
+        mobile: {
+          src: scholarshipInternalMobile,
+          alt: "BiPSU SRMS Internal Scholarships page on a phone showing the Academic Scholarship card",
+        },
+      },
+      {
+        caption: "External Scholarships",
+        desktop: {
+          src: scholarshipExternal,
+          alt: "BiPSU SRMS External Scholarships page with CHED Merit, CoScho and DOST scholarship cards",
+        },
+        mobile: {
+          src: scholarshipExternalMobile,
+          alt: "BiPSU SRMS External Scholarships page on a phone",
         },
       },
     ],
@@ -262,20 +293,6 @@ export const certificates: Certificate[] = [
     date: "November 26, 2024",
     image: certGartner,
     href: "/certificates/gartner-webinar.png",
-  },
-];
-
-export const highlights = [
-  { value: String(certificates.length), label: "Certificates", detail: "Courses, seminars and webinars" },
-  {
-    value: String(projects.length),
-    label: projects.length === 1 ? "Featured Project" : "Featured Projects",
-    detail: projects.map((p) => p.title).join(" & "),
-  },
-  {
-    value: String(skillGroups.reduce((n, g) => n + g.items.length, 0)),
-    label: "Skills & Tools",
-    detail: "Design, code and productivity",
   },
 ];
 

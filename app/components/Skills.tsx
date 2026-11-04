@@ -1,5 +1,6 @@
 import { skillGroups } from "@/data/portfolio";
 import { Icon } from "./Icon";
+import { SkillIcon } from "./SkillIcon";
 import { SectionHeading } from "./SectionHeading";
 
 export function Skills() {
@@ -28,8 +29,9 @@ export function Skills() {
                 {group.items.map((item) => (
                   <li
                     key={item}
-                    className="rounded-full border border-line bg-bg-alt px-3 py-1 text-xs font-medium text-fg"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-line bg-bg-alt px-3 py-1 text-xs font-medium text-fg"
                   >
+                    <SkillIcon name={item} />
                     {item}
                   </li>
                 ))}

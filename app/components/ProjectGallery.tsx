@@ -34,7 +34,7 @@ export function ProjectGallery({ screens, title }: { screens: ProjectScreen[]; t
           <li
             key={screen.caption}
             data-reveal
-            className="w-full rounded-2xl border border-line bg-bg-alt p-4 sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
+            className="group/tile w-full rounded-2xl border border-line bg-bg-alt p-3.5 transition-[border-color,box-shadow] duration-300 hover:border-accent hover:shadow-[0_14px_34px_-14px_rgb(252_198_60/0.6)] sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
           >
             <h4 className="flex items-center gap-2.5 text-sm font-semibold text-fg">
               <span className="grid size-6 place-items-center rounded-full bg-accent text-[11px] text-on-accent">
@@ -46,7 +46,7 @@ export function ProjectGallery({ screens, title }: { screens: ProjectScreen[]; t
               type="button"
               onClick={() => open(i)}
               aria-label={`View ${screen.caption} in full screen`}
-              className="group relative mt-4 block w-full rounded-lg text-left"
+              className="group relative mt-3.5 block w-full rounded-lg text-left transition-transform duration-300 group-hover/tile:-translate-y-1"
             >
               <DeviceMockup screen={screen} size="tile" />
               <span className="absolute top-2 right-2 grid size-7 place-items-center rounded-full bg-black/60 text-white opacity-0 backdrop-blur-sm transition group-hover:opacity-100 group-focus-visible:opacity-100">

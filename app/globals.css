@@ -136,6 +136,34 @@ section[id] {
   }
 }
 
+/* Bottom bar (phones & tablets): the same sliding glowing circle, keeping the bar's ring and shadow */
+.nav-glow-bar {
+  box-shadow:
+    0 0 0 4px var(--bg),
+    var(--card-shadow),
+    0 0 22px 4px rgb(252 198 60 / 0.4);
+}
+
+[data-theme="dark"] .nav-glow-bar {
+  box-shadow:
+    0 0 0 4px var(--bg),
+    var(--card-shadow),
+    0 0 26px 6px rgb(252 198 60 / 0.5);
+}
+
+/* Carousel: a slide that wraps around fades in at its new place (two names so it can replay) */
+@keyframes carousel-fade-a {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes carousel-fade-b {
+  from {
+    opacity: 0;
+  }
+}
+
 dialog::backdrop {
   background: rgb(5 9 20 / 0.85);
   backdrop-filter: blur(4px);

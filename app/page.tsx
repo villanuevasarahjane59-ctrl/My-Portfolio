@@ -5,7 +5,6 @@ import { Contact } from "./components/Contact";
 import { Education } from "./components/Education";
 import { Footer } from "./components/Footer";
 import { Hero } from "./components/Hero";
-import { Highlights } from "./components/Highlights";
 import { Projects } from "./components/Projects";
 import { RevealObserver } from "./components/RevealObserver";
 import { SiteNav } from "./components/SiteNav";
@@ -17,7 +16,6 @@ export default function Home() {
       <SiteNav />
       <main>
         <Hero />
-        <Highlights />
         <Projects />
         <Skills />
         <Certificates />

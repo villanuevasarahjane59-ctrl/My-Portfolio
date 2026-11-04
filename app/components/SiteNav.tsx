@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { navItems, profile } from "@/data/portfolio";
+import { navItems } from "@/data/portfolio";
 import { Icon } from "./Icon";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -51,22 +50,17 @@ export function SiteNav() {
   const active = useActiveSection();
   const mobileActive = mobileParent[active] ?? active;
   const activeIndex = Math.max(0, navItems.findIndex((item) => item.id === active));
+  const mobileIndex = Math.max(0, mobileItems.findIndex((item) => item.id === mobileActive));
 
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-40 border-b border-line/70 bg-bg/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
-          <a
-            href="#home"
-            aria-label={`${profile.name}, back to top`}
-          >
-          </a>
-
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-end gap-6 px-4 sm:px-6">
           <div className="flex items-center gap-3">
             <ThemeToggle />
             <a
               href="#contact"
-              className="hidden items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-on-accent transition hover:bg-accent-hover sm:inline-flex"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-on-accent transition hover:bg-accent-hover"
             >
               <Icon name="mail" className="size-4" />
               Message Me
@@ -130,7 +124,15 @@ export function SiteNav() {
         aria-label="Section"
         className="fixed inset-x-3 bottom-3 z-40 rounded-2xl border border-line bg-surface/95 px-2 pt-2 pb-1.5 shadow-card backdrop-blur-md lg:hidden"
       >
-        <ul className="flex items-end justify-around">
+        <ul className="relative flex items-end justify-around">
+          {/* Same motion as the side menu: one glowing circle slides to the active icon */}
+          <li
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.4,0.64,1)] motion-reduce:transition-none"
+            style={{ width: `${100 / mobileItems.length}%`, transform: `translateX(${mobileIndex * 100}%)` }}
+          >
+            <span className="nav-glow-bar absolute bottom-[15px] left-1/2 size-12 -translate-x-1/2 rounded-full bg-fg dark:bg-accent" />
+          </li>
           {mobileItems.map((item) => {
             const isActive = mobileActive === item.id;
             return (
@@ -138,13 +140,18 @@ export function SiteNav() {
                 <a
                   href={`#${item.id}`}
                   aria-current={isActive ? "true" : undefined}
-                  className="flex flex-col items-center gap-1 text-muted"
+                  className="relative flex flex-col items-center gap-1 text-muted"
                 >
+                  {/* Glow pulse that plays once each time an item becomes active */}
+                  {isActive && (
+                    <span
+                      aria-hidden="true"
+                      className="nav-pulse pointer-events-none absolute bottom-[15px] left-1/2 size-12 -translate-x-1/2 rounded-full motion-reduce:hidden"
+                    />
+                  )}
                   <span
                     className={`grid place-items-center rounded-full transition-all duration-300 ${
-                      isActive
-                        ? "-mt-7 size-12 bg-fg text-bg shadow-card ring-4 ring-bg dark:bg-accent dark:text-on-accent"
-                        : "size-9 hover:text-fg"
+                      isActive ? "-mt-7 size-12 text-bg dark:text-on-accent" : "size-9 hover:text-fg"
                     }`}
                   >
                     <Icon name={item.icon} className="size-5" />
