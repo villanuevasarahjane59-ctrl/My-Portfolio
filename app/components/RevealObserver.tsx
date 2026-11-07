@@ -2,20 +2,20 @@
 
 import { useEffect } from "react";
 
-// Fades in every [data-reveal] element the first time it scrolls into view.
+// Glides [data-reveal] elements in and out as they enter and leave the screen, in both scroll
+// directions: from below when scrolling down, from above when scrolling back up (see globals.css).
 export function RevealObserver() {
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
+          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+          entry.target.classList.toggle("is-above", !entry.isIntersecting && entry.boundingClientRect.top < 0);
         }
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
+      // Any part of the element inside the screen counts, so tall cards work too.
+      { rootMargin: "-6% 0px -6% 0px", threshold: 0 },
     );
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();

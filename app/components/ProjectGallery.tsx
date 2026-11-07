@@ -33,7 +33,6 @@ export function ProjectGallery({ screens, title }: { screens: ProjectScreen[]; t
         {screens.map((screen, i) => (
           <li
             key={screen.caption}
-            data-reveal
             className="group/tile w-full rounded-2xl border border-line bg-bg-alt p-3.5 transition-[border-color,box-shadow] duration-300 hover:border-accent hover:shadow-[0_14px_34px_-14px_rgb(252_198_60/0.6)] sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
           >
             <h4 className="flex items-center gap-2.5 text-sm font-semibold text-fg">

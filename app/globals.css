@@ -95,18 +95,47 @@ section[id] {
   }
 }
 
-/* Scroll reveal; only hidden when JS is running, so content never stays invisible */
+/* Scroll animation: as an element enters the screen it glides in, and as it leaves it glides out,
+   every time, in both scroll directions (see RevealObserver). It plays on a timer once triggered,
+   so it stays smooth with a mouse wheel, trackpad or touch, in every browser.
+   Only runs with JS, so content never stays invisible. */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(44px) scale(0.98);
   transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
+    opacity 0.85s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 0.61, 0.36, 1),
+    translate 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.js [data-reveal].is-above {
+  transform: translateY(-44px) scale(0.98);
 }
 
 .js [data-reveal].is-visible {
   opacity: 1;
   transform: none;
+}
+
+/* View-only documents (resume, certificates): no selecting, long-press saving or printing */
+[data-view-only],
+[data-view-only] * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+[data-view-only] img {
+  pointer-events: none;
+}
+
+@media print {
+  [data-view-only],
+  [data-view-only] * {
+    visibility: hidden !important;
+  }
 }
 
 /* Side menu: the sliding active circle glows yellow, matching the black + yellow palette in both themes */
@@ -164,6 +193,34 @@ section[id] {
   }
 }
 
+/* Theme change: the new theme spreads out from the center of the screen in a growing circle.
+   Colour fades are paused meanwhile so the new theme is crisp; movement such as the carousels keeps going. */
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition-property: transform, translate, scale, opacity !important;
+}
+
+html.theme-transition::view-transition-old(root),
+html.theme-transition::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.theme-transition::view-transition-new(root) {
+  animation: theme-reveal 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0% at 50% 50%);
+  }
+  to {
+    /* 71% of this reference size reaches the corners of any screen */
+    clip-path: circle(72% at 50% 50%);
+  }
+}
+
 dialog::backdrop {
   background: rgb(5 9 20 / 0.85);
   backdrop-filter: blur(4px);
@@ -174,7 +231,8 @@ dialog::backdrop {
     scroll-behavior: auto;
   }
 
-  .js [data-reveal] {
+  .js [data-reveal],
+  .js [data-reveal].is-above {
     opacity: 1;
     transform: none;
     transition: none;

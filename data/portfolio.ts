@@ -12,10 +12,26 @@ import scholarshipInternal from "@/public/images/projects/scholarship project-in
 import scholarshipInternalMobile from "@/public/images/projects/scholarship project-internal programs mobile.jpg";
 import scholarshipExternal from "@/public/images/projects/scholarship project-external programs.png";
 import scholarshipExternalMobile from "@/public/images/projects/scholarship project-external programs mobile.jpg";
-import certAiLiteracy from "@/public/images/certificates/ai-literacy-responsible-use.jpg";
-import certCisco from "@/public/images/certificates/cisco-networking-basics.jpg";
-import certThesisSeminar from "@/public/images/certificates/bipsu-thesis-preparation-seminar.jpg";
-import certGartner from "@/public/images/certificates/gartner-webinar.jpg";
+// View-only documents live outside public/ so they have no direct, guessable download link.
+import resumeView from "@/assets/resume/resume-view.png";
+import certAiLiteracy from "@/assets/protected/certificates/ai-literacy-responsible-use.jpg";
+import certCisco from "@/assets/protected/certificates/cisco-networking-basics.jpg";
+import certCiscoCredential from "@/assets/protected/certificates/cisco-networking-basics-credential.jpg";
+import certThesisSeminar from "@/assets/protected/certificates/bipsu-thesis-preparation-seminar.jpg";
+import certGartner from "@/assets/protected/certificates/gartner-webinar.jpg";
+import beyondRecognition from "@/assets/protected/beyond/academic-recognition.jpg";
+import beyondCertificate from "@/assets/protected/beyond/academic-certificate.jpg";
+import beyondMissBipsu from "@/assets/protected/beyond/pageant-miss-bipsu-2023.jpg";
+import beyondRepresenting from "@/assets/protected/beyond/pageant-representing-bipsu.jpg";
+import beyondMisterMiss from "@/assets/protected/beyond/pageant-mister-miss-suc-2023.jpg";
+import beyondParade from "@/assets/protected/beyond/pageant-parade.jpg";
+import beyondFashionShow from "@/assets/protected/beyond/pageant-fashion-show.jpg";
+import beyondOnStage from "@/assets/protected/beyond/pageant-on-stage.jpg";
+import beyondHulmaKultura from "@/assets/protected/beyond/school-hulma-kultura.jpg";
+import beyondExhibit from "@/assets/protected/beyond/school-exhibit.jpg";
+import beyondSteps from "@/assets/protected/beyond/school-steps-2025.jpg";
+import beyondCulturalDance from "@/assets/protected/beyond/school-cultural-dance.jpg";
+import beyondYouth from "@/assets/protected/beyond/youth-group.jpg";
 
 // All portfolio content lives here so text can be updated without touching the layout.
 
@@ -29,8 +45,8 @@ export const profile = {
   photo: profilePhoto,
   email: "villanuevasarahjane59@gmail.com",
   instagram: { handle: "sarah_jeyn", url: "https://www.instagram.com/sarah_jeyn/" },
-  // Generated from assets/resume/resume.html (no phone number, since it is public)
-  resume: "/My-Resume.pdf",
+  // Rendered from assets/resume/resume.html; shown in the view-only viewer
+  resume: resumeView,
   location: "Masagaosao, Kawayan, Biliran",
 };
 
@@ -104,13 +120,13 @@ export const skillGroups: SkillGroup[] = [
     title: "Programming",
     icon: "code",
     description: "Languages I use to bring ideas to life.",
-    items: ["Java", "JavaScript"],
+    items: ["Python"],
   },
   {
     title: "Web Development",
     icon: "globe",
     description: "Building pages and web applications.",
-    items: ["HTML", "Next.js"],
+    items: ["HTML", "CSS", "Next.js"],
   },
   {
     title: "Productivity",
@@ -139,7 +155,7 @@ export type Project = {
   title: string;
   subtitle: string;
   year?: string;
-  role: string;
+  role?: string;
   type: string;
   description: string;
   screens: ProjectScreen[];
@@ -182,7 +198,7 @@ export const projects: Project[] = [
     title: "Voting System",
     subtitle: "E-Voting Desktop Application",
     role: "UI Designer",
-    type: "Solo Project",
+    type: "Team Project",
     description:
       "An e-voting system that serves as a new technology for voters, with the aim of improving the electoral process. I designed its interface, from the admin login screen to the \"Vote Wisely\" ballot for SK Chairman and SK Kagawad candidates.",
     screens: [
@@ -205,7 +221,6 @@ export const projects: Project[] = [
   {
     title: "BiPSU SRMS",
     subtitle: "Scholarship Record Management System with Eligibility Recommender",
-    role: "UI Designer",
     type: "Team Project",
     description:
       "A scholarship portal for Biliran Province State University where students can explore the available internal and external scholarship programs, check if they're eligible, and register or sign in to apply.",
@@ -253,8 +268,7 @@ export type Certificate = {
   kind: string;
   date: string;
   image: StaticImageData;
-  href: string;
-  extraLink?: { label: string; href: string };
+  extraDocument?: { label: string; image: StaticImageData };
 };
 
 export const certificates: Certificate[] = [
@@ -264,7 +278,6 @@ export const certificates: Certificate[] = [
     kind: "Micro-credential",
     date: "September 14, 2026",
     image: certAiLiteracy,
-    href: "/certificates/ai-literacy-responsible-use.pdf",
   },
   {
     title: "Networking Basics",
@@ -272,11 +285,7 @@ export const certificates: Certificate[] = [
     kind: "Course Completion",
     date: "May 17, 2026",
     image: certCisco,
-    href: "/certificates/cisco-networking-basics.pdf",
-    extraLink: {
-      label: "Credential",
-      href: "/certificates/cisco-networking-basics-credential.pdf",
-    },
+    extraDocument: { label: "Credential", image: certCiscoCredential },
   },
   {
     title: "Thesis Preparation with the Use of Trending Tools and Industry Practices",
@@ -284,7 +293,6 @@ export const certificates: Certificate[] = [
     kind: "Seminar-Workshop",
     date: "October 6–7, 2025",
     image: certThesisSeminar,
-    href: "/certificates/bipsu-thesis-preparation-seminar.pdf",
   },
   {
     title: "You're In A Relationship With A Machine, How Healthy Is It?",
@@ -292,7 +300,68 @@ export const certificates: Certificate[] = [
     kind: "Webinar",
     date: "November 26, 2024",
     image: certGartner,
-    href: "/certificates/gartner-webinar.png",
+  },
+];
+
+export type BeyondItem = {
+  image: StaticImageData;
+  alt: string;
+};
+
+// Shown as images only, in this order: academic, pageant, school competition, youth.
+// The alt text is never displayed; it is what screen readers announce.
+export const beyondItems: BeyondItem[] = [
+  {
+    image: beyondRecognition,
+    alt: "Sarah Jane in her school uniform holding a Certificate of Recognition, standing between two adults",
+  },
+  {
+    image: beyondCertificate,
+    alt: "Biliran Province State University Certificate of Recognition awarded to Sarah Jane E. Villanueva",
+  },
+  {
+    image: beyondMissBipsu,
+    alt: "Sarah Jane wearing a gold crown and a Miss BiPSU 2023 sash",
+  },
+  {
+    image: beyondRepresenting,
+    alt: "Sarah Jane and two others in BiPSU sashes holding the university flag",
+  },
+  {
+    image: beyondMisterMiss,
+    alt: "Mister and Miss SUC 2023 candidates on stage holding trophies and bouquets",
+  },
+  {
+    image: beyondParade,
+    alt: "Sarah Jane in a BiPSU sash on a parade float beside a tiger mascot",
+  },
+  {
+    image: beyondFashionShow,
+    alt: "Models in gowns and formal wear posing in front of a Fashion Show screen",
+  },
+  {
+    image: beyondOnStage,
+    alt: "Sarah Jane on stage in a school uniform and a Miss BiPSU sash",
+  },
+  {
+    image: beyondHulmaKultura,
+    alt: "Dance team in blue and yellow costumes holding a trophy on stage at the Hulma Kultura Dance Competition",
+  },
+  {
+    image: beyondExhibit,
+    alt: "Sarah Jane and two schoolmates in front of an exhibit wall of artworks",
+  },
+  {
+    image: beyondSteps,
+    alt: "Large group posing on stage under a STEPS 2025 STCS Dance Culmination screen",
+  },
+  {
+    image: beyondCulturalDance,
+    alt: "Sarah Jane in a yellow costume with her team in a gymnasium, holding a shield and a parasol",
+  },
+  {
+    image: beyondYouth,
+    alt: "Youth group in yellow shirts and face masks praying together inside a chapel",
   },
 ];
 
@@ -303,5 +372,6 @@ export const navItems = [
   { id: "certificates", label: "Certificates", icon: "award" },
   { id: "about", label: "About", icon: "user" },
   { id: "education", label: "Education", icon: "cap" },
+  { id: "beyond", label: "Beyond the Code", icon: "camera" },
   { id: "contact", label: "Contact", icon: "mail" },
 ] as const;

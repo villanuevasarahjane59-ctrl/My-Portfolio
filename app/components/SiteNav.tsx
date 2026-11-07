@@ -70,13 +70,17 @@ export function SiteNav() {
       </header>
 
       {/* Upright side menu (large screens), matching the phone bar (assets/design-references/bottom-nav.jpg).
-          One glowing circle slides to the active icon; its label sits centered right under it. */}
-      <nav aria-label="Main" className="fixed top-1/2 left-5 z-40 hidden -translate-y-1/2 lg:block">
-        <ul className="relative flex flex-col items-center gap-0.5 rounded-[1.6rem] border border-line bg-surface/95 px-1 py-2 shadow-card backdrop-blur-md">
+          One glowing circle slides to the active icon; its label sits centered right under it.
+          Centered in the space below the header, so it never reaches the header; very short screens scale it down. */}
+      <nav
+        aria-label="Main"
+        className="fixed top-[calc(50%+2rem)] left-5 z-40 hidden -translate-y-1/2 [--nav-item:3.375rem] lg:block [@media(min-height:461px)_and_(max-height:530px)]:scale-[0.85] [@media(max-height:460px)]:scale-[0.7]"
+      >
+        <ul className="relative flex flex-col items-center rounded-[1.6rem] border border-line bg-surface/95 px-1 py-1.5 shadow-card backdrop-blur-md">
           <span
             aria-hidden="true"
-            className="nav-glow absolute top-2.5 left-1/2 size-11 rounded-full bg-fg transition-transform duration-500 ease-[cubic-bezier(0.34,1.4,0.64,1)] motion-reduce:transition-none dark:bg-accent"
-            style={{ transform: `translate(-50%, calc(${activeIndex} * (4rem + 0.125rem)))` }}
+            className="nav-glow absolute top-[7px] left-1/2 size-9 rounded-full bg-fg transition-transform duration-500 ease-[cubic-bezier(0.34,1.4,0.64,1)] motion-reduce:transition-none dark:bg-accent"
+            style={{ transform: `translate(-50%, calc(${activeIndex} * var(--nav-item)))` }}
           />
           {navItems.map((item) => {
             const isActive = active === item.id;
@@ -85,17 +89,17 @@ export function SiteNav() {
                 <a
                   href={`#${item.id}`}
                   aria-current={isActive ? "true" : undefined}
-                  className="group relative flex h-16 w-[5.5rem] flex-col items-center pt-1 text-muted"
+                  className="group relative flex h-(--nav-item) w-[5.5rem] flex-col items-center pt-px text-muted"
                 >
                   {/* Glow pulse that plays once each time an item becomes active */}
                   {isActive && (
                     <span
                       aria-hidden="true"
-                      className="nav-pulse pointer-events-none absolute top-0.5 left-1/2 size-11 -translate-x-1/2 rounded-full motion-reduce:hidden"
+                      className="nav-pulse pointer-events-none absolute top-px left-1/2 size-9 -translate-x-1/2 rounded-full motion-reduce:hidden"
                     />
                   )}
                   <span
-                    className={`relative grid size-10 shrink-0 place-items-center rounded-full transition-[color,box-shadow,background-color] duration-300 ${
+                    className={`relative grid size-9 shrink-0 place-items-center rounded-full transition-[color,box-shadow,background-color] duration-300 ${
                       isActive
                         ? "text-bg dark:text-on-accent"
                         : "group-hover:bg-accent-soft group-hover:text-fg group-hover:shadow-[0_0_14px_rgb(252_198_60/0.35)]"
@@ -104,7 +108,11 @@ export function SiteNav() {
                     <Icon name={item.icon} className="size-5" />
                   </span>
                   {isActive ? (
-                    <span className="absolute inset-x-0 bottom-0.5 text-center text-[10.5px] leading-none font-semibold whitespace-nowrap text-fg">
+                    <span
+                      className={`absolute inset-x-0 bottom-0 text-center leading-none font-semibold whitespace-nowrap text-fg ${
+                        item.label.length > 12 ? "text-[9.5px] tracking-tight" : "text-[10.5px]"
+                      }`}
+                    >
                       {item.label}
                     </span>
                   ) : (
@@ -136,7 +144,7 @@ export function SiteNav() {
           {mobileItems.map((item) => {
             const isActive = mobileActive === item.id;
             return (
-              <li key={item.id} className="flex-1">
+              <li key={item.id} className="min-w-0 flex-1">
                 <a
                   href={`#${item.id}`}
                   aria-current={isActive ? "true" : undefined}
@@ -161,7 +169,12 @@ export function SiteNav() {
                       isActive ? "text-fg" : "sr-only"
                     }`}
                   >
-                    {item.label}
+                    {item.label.length > 12 ? (
+                      // Long labels shrink with the screen so they stay clear of the neighbouring icons.
+                      <span className="text-[length:min(9.5px,2.65vw)] tracking-tight whitespace-nowrap sm:text-[10px]">{item.label}</span>
+                    ) : (
+                      item.label
+                    )}
                   </span>
                 </a>
               </li>

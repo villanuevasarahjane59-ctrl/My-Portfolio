@@ -2,10 +2,11 @@ import Image from "next/image";
 
 import { profile } from "@/data/portfolio";
 import { Icon } from "./Icon";
+import { ViewOnlyButton } from "./ViewOnly";
 
 export function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden bg-hero pt-28 pb-36 sm:pt-32 lg:pb-44">
+    <section id="home" className="relative overflow-clip bg-hero pt-28 pb-36 sm:pt-32 lg:pb-44">
       <WaveLines />
 
       <div className="shell relative grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
@@ -25,16 +26,15 @@ export function Hero() {
               View Projects
               <Icon name="arrowRight" className="size-4" />
             </a>
-            <a
-              href={profile.resume}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="My Resume (PDF, opens in a new tab)"
+            <ViewOnlyButton
+              image={profile.resume}
+              alt={`Resume of ${profile.name}`}
+              caption={`${profile.name} · Resume`}
+              layout="page"
               className="inline-flex items-center gap-2 rounded-full border border-fg/25 px-6 py-3 text-sm font-semibold text-fg transition hover:border-accent hover:text-accent-ink"
             >
-              <Icon name="download" className="size-4" />
               My Resume
-            </a>
+            </ViewOnlyButton>
           </div>
         </div>
 

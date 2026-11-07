@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# originals of personal photos and the signed certificate
+/assets/originals/beyond/

@@ -15,16 +15,36 @@ import {
 // in the middle at full size, its neighbours peek out smaller on both sides, and it keeps gliding to
 // the next card on its own. No arrows: swipe/drag, tap a side card, use the dots or ← →.
 // Pressing a dot or a card stops it on that card; scrolling away from the section restarts it.
+// Every card gets the height of the tallest one, so sliding never moves the page below the carousel.
+// With `aspects`, each card instead takes the exact shape of its image at one shared height, and the
+// carousel keeps a fixed height, so the page stays still there too.
 
 const sizes = {
   // Slide width and the distance to the neighbouring slide (as a share of the slide's own width)
   project: "[--slide-w:88%] [--step:94%] sm:[--slide-w:86%] sm:[--step:93%] lg:[--slide-w:86%] lg:[--step:92%]",
   wide: "[--slide-w:88%] [--step:94%] sm:[--slide-w:82%] sm:[--step:92%] lg:[--slide-w:78%] lg:[--step:90%]",
   narrow: "[--slide-w:86%] [--step:94%] sm:[--slide-w:62%] sm:[--step:92%] lg:[--slide-w:52%] lg:[--step:90%]",
+  // Shared card height and the widest a card may get (used with `aspects`)
+  fitted:
+    "[--card-h:min(90vw,62dvh)] [--card-max:82vw] sm:[--card-h:min(56vw,62dvh,520px)] sm:[--card-max:76vw] lg:[--card-h:min(36vw,62dvh,520px)] lg:[--card-max:min(60vw,820px)]",
 };
 
 const SIDE_SCALE = 0.84;
 const SIDE_OPACITY = 0.6;
+const FITTED_GAP = "1rem";
+
+// `aspects` mode: a card's width comes from its image's shape, up to the widest allowed.
+function fittedWidth(aspect: number) {
+  return `min(var(--card-max), calc(var(--card-h) * ${aspect}))`;
+}
+
+// Cards differ in width, so a neighbour's distance depends on the current card's width and its own.
+function fittedX(aspects: number[], active: number, i: number, offset: number) {
+  if (offset === 0) return "0px";
+  const direction = offset < 0 ? -1 : 1;
+  const beyond = Math.abs(offset) - 1; // hidden cards wait further out
+  return `calc(${direction} * (${fittedWidth(aspects[active])} / 2 + ${FITTED_GAP} + ${fittedWidth(aspects[i])} * ${SIDE_SCALE / 2} + ${beyond} * var(--card-max) * ${SIDE_SCALE}))`;
+}
 
 // Position of slide i relative to the active one, wrapped so the carousel loops endlessly.
 function offsetOf(i: number, active: number, n: number) {
@@ -44,16 +64,15 @@ export function Carousel({
   label,
   itemLabel,
   size = "wide",
-  align = "fit",
+  aspects,
   interval = 1500,
 }: {
   children: ReactNode;
   label: string;
   itemLabel: string;
   size?: keyof typeof sizes;
-  /** "stretch": every card gets the height of the tallest one. "fit": the carousel takes the
-   *  current card's height; taller side cards fade out at the bottom. */
-  align?: "fit" | "stretch";
+  /** Width / height of each card's image; makes every card fit its image exactly. */
+  aspects?: number[];
   interval?: number;
 }) {
   const slides = Children.toArray(children);
@@ -62,8 +81,6 @@ export function Carousel({
   const regionRef = useRef<HTMLDivElement>(null);
   const [{ active, prev, step }, setState] = useState({ active: 0, prev: 0, step: 0 });
   const [holdCycle, setHoldCycle] = useState(0);
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [heights, setHeights] = useState<number[]>([]);
 
   // Drag / swipe
   const drag = useRef<{ id: number; x: number; y: number; dx: number; dragging: boolean } | null>(null);
@@ -91,23 +108,12 @@ export function Carousel({
         // Leaving the section starts the slideshow again for the next visit.
         if (!entry.isIntersecting) setStopped(false);
       },
-      { threshold: 0.35 },
+      // In view when it crosses the middle of the screen, so cards taller than the screen count too.
+      { rootMargin: "-25% 0px -25% 0px", threshold: 0 },
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  // "fit": keep every card's height so the carousel can grow/shrink to the current one.
-  useEffect(() => {
-    if (align !== "fit") return;
-    const resize = new ResizeObserver(() =>
-      setHeights(slideRefs.current.map((el) => el?.offsetHeight ?? 0)),
-    );
-    slideRefs.current.forEach((el) => el && resize.observe(el));
-    return () => resize.disconnect();
-  }, [align, n]);
-
-  const fitHeight = align === "fit" && heights[active] ? heights[active] : undefined;
 
   function goTo(i: number) {
     setState((s) => {
@@ -187,6 +193,7 @@ export function Carousel({
   return (
     <div
       ref={regionRef}
+      data-reveal
       role="region"
       aria-roledescription="carousel"
       aria-label={label}
@@ -194,12 +201,8 @@ export function Carousel({
       className={sizes[size]}
     >
       <div
-        className={`relative grid touch-pan-y ${dragging ? "cursor-grabbing select-none" : ""} ${
-          align === "fit"
-            ? "transition-[height] duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)] [clip-path:inset(-3rem_-100vw_-2rem_-100vw)] motion-reduce:transition-none"
-            : ""
-        }`}
-        style={{ height: fitHeight }}
+        className={`relative grid touch-pan-y ${dragging ? "cursor-grabbing select-none" : ""}`}
+        style={aspects ? { minHeight: "var(--card-h)" } : undefined}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={(e) => endDrag(e, false)}
@@ -232,27 +235,21 @@ export function Carousel({
               aria-label={`${itemLabel} ${i + 1} of ${n}`}
               aria-hidden={!isActive || undefined}
               className={`relative col-start-1 row-start-1 justify-self-center ${
-                align === "stretch" ? "flex self-stretch" : "self-start"
+                aspects ? "self-center" : "flex self-stretch"
               } ${
                 jumped || dragging
                   ? "transition-none"
                   : "transition-[transform,opacity] duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:transition-none"
               } ${visible ? "" : "pointer-events-none"}`}
               style={{
-                width: "var(--slide-w)",
+                width: aspects ? fittedWidth(aspects[i]) : "var(--slide-w)",
                 zIndex: 3 - Math.min(Math.abs(offset), 2),
                 opacity: isActive ? 1 : visible ? SIDE_OPACITY : 0,
-                transform: `translateX(calc(${offset} * var(--step) + ${dragX}px)) scale(${isActive ? 1 : SIDE_SCALE})`,
+                transform: `translateX(calc(${aspects ? fittedX(aspects, active, i, offset) : `${offset} * var(--step)`} + ${dragX}px)) scale(${isActive ? 1 : SIDE_SCALE})`,
                 animation: jumped ? `carousel-fade-${step % 2 ? "a" : "b"} 900ms ease` : undefined,
               }}
             >
-              <div
-                ref={(el) => {
-                  slideRefs.current[i] = el;
-                }}
-                inert={!isActive}
-                className="w-full"
-              >
+              <div inert={!isActive} className="w-full">
                 {slide}
               </div>
               {!isActive && visible && (
@@ -267,18 +264,10 @@ export function Carousel({
             </div>
           );
         })}
-
-        {align === "fit" && (
-          // Fades the bottom of taller side cards into the page; sits under the current card.
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-[-100vw] bottom-0 z-[2] h-24 bg-gradient-to-b from-transparent to-bg"
-          />
-        )}
       </div>
 
       {n > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-1">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-1">
           {slides.map((_, i) => (
             <button
               key={i}

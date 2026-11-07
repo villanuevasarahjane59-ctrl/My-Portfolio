@@ -18,16 +18,17 @@ export function Projects() {
             {projects.map((project) => (
               <article
                 key={project.title}
-                className="rounded-3xl border border-line bg-surface p-5 shadow-card sm:p-7"
+                className="flex h-full flex-col rounded-3xl border border-line bg-surface p-5 shadow-card sm:p-7"
               >
                 {/* Compact intro so the screens below get the spotlight */}
-                <div data-reveal className="max-w-3xl">
+                <div className="max-w-3xl">
                   <h3 className="font-display text-2xl text-fg sm:text-3xl">{project.title}</h3>
                   <p className="mt-0.5 text-sm font-medium text-accent-ink sm:text-base">{project.subtitle}</p>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{project.description}</p>
                 </div>
 
-                <div className="mt-5">
+                {/* Cards share one height; screens sit centered in any extra space */}
+                <div className="mt-5 flex flex-1 flex-col justify-center">
                   <ProjectGallery screens={project.screens} title={project.title} />
                 </div>
               </article>

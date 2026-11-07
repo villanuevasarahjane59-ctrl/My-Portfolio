@@ -4,6 +4,7 @@ import { certificates } from "@/data/portfolio";
 import { Carousel } from "./Carousel";
 import { Icon } from "./Icon";
 import { SectionHeading } from "./SectionHeading";
+import { ViewOnlyButton } from "./ViewOnly";
 
 export function Certificates() {
   return (
@@ -16,29 +17,31 @@ export function Certificates() {
         />
 
         <div className="mt-14">
-          <Carousel label="Certificates" itemLabel="Certificate" size="narrow" align="stretch">
+          <Carousel label="Certificates" itemLabel="Certificate" size="narrow">
           {certificates.map((cert) => (
             <article
               key={cert.title}
-              data-reveal
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-card transition hover:-translate-y-1 hover:border-accent/60"
             >
-              <a
-                href={cert.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Open the ${cert.title} certificate`}
-                className="relative block aspect-[1.414/1] overflow-hidden border-b border-line bg-bg-alt"
-              >
-                <Image
-                  src={cert.image}
+              <div data-view-only>
+                <ViewOnlyButton
+                  image={cert.image}
                   alt={`Certificate: ${cert.title}`}
-                  fill
-                  sizes="(min-width: 1024px) 540px, (min-width: 640px) 62vw, 86vw"
-                  placeholder="blur"
-                  className="object-contain p-3 transition duration-500 group-hover:scale-[1.02]"
-                />
-              </a>
+                  caption={cert.title}
+                  ariaLabel={`View the ${cert.title} certificate`}
+                  className="relative block aspect-[1.414/1] w-full cursor-zoom-in overflow-hidden border-b border-line bg-bg-alt"
+                >
+                  <Image
+                    src={cert.image}
+                    alt={`Certificate: ${cert.title}`}
+                    fill
+                    draggable={false}
+                    sizes="(min-width: 1024px) 540px, (min-width: 640px) 62vw, 86vw"
+                    placeholder="blur"
+                    className="object-contain p-3 transition duration-500 group-hover:scale-[1.02]"
+                  />
+                </ViewOnlyButton>
+              </div>
 
               <div className="flex flex-1 flex-col p-6">
                 <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
@@ -52,25 +55,25 @@ export function Certificates() {
                 <p className="mt-1 text-sm text-muted">{cert.issuer}</p>
 
                 <div className="mt-auto flex flex-wrap gap-x-5 gap-y-2 pt-5 text-sm font-semibold">
-                  <a
-                    href={cert.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <ViewOnlyButton
+                    image={cert.image}
+                    alt={`Certificate: ${cert.title}`}
+                    caption={cert.title}
                     className="inline-flex items-center gap-1.5 text-accent-ink underline-offset-4 hover:underline"
                   >
                     View certificate
-                    <Icon name="external" className="size-4" />
-                  </a>
-                  {cert.extraLink && (
-                    <a
-                      href={cert.extraLink.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Icon name="expand" className="size-4" />
+                  </ViewOnlyButton>
+                  {cert.extraDocument && (
+                    <ViewOnlyButton
+                      image={cert.extraDocument.image}
+                      alt={`${cert.extraDocument.label}: ${cert.title}`}
+                      caption={`${cert.title} · ${cert.extraDocument.label}`}
                       className="inline-flex items-center gap-1.5 text-muted underline-offset-4 hover:text-fg hover:underline"
                     >
-                      {cert.extraLink.label}
-                      <Icon name="external" className="size-4" />
-                    </a>
+                      {cert.extraDocument.label}
+                      <Icon name="expand" className="size-4" />
+                    </ViewOnlyButton>
                   )}
                 </div>
               </div>

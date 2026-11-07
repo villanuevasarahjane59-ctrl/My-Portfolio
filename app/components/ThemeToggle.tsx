@@ -1,18 +1,44 @@
 "use client";
 
+import { useRef } from "react";
+
 import { Icon } from "./Icon";
+
+type Theme = "light" | "dark";
+
+function applyTheme(theme: Theme) {
+  document.documentElement.dataset.theme = theme;
+  try {
+    localStorage.setItem("theme", theme);
+  } catch {
+    // Storage can be blocked (private mode); the theme still applies for this visit.
+  }
+}
 
 // The icon swap is pure CSS (dark: variant), so the button renders the same on server and client.
 export function ThemeToggle({ className = "" }: { className?: string }) {
+  const latestRun = useRef(0);
+
   function toggle() {
     const root = document.documentElement;
-    const next = root.dataset.theme === "dark" ? "light" : "dark";
-    root.dataset.theme = next;
-    try {
-      localStorage.setItem("theme", next);
-    } catch {
-      // Storage can be blocked (private mode); the theme still applies for this visit.
+    const next: Theme = root.dataset.theme === "dark" ? "light" : "dark";
+
+    // Browsers without view transitions, and visitors who turn animations off, get a plain switch.
+    if (
+      typeof document.startViewTransition !== "function" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      applyTheme(next);
+      return;
     }
+
+    // The new theme spreads out from the center of the screen (see globals.css).
+    const run = ++latestRun.current;
+    root.classList.add("theme-transition");
+    const transition = document.startViewTransition(() => applyTheme(next));
+    transition.finished.finally(() => {
+      if (run === latestRun.current) root.classList.remove("theme-transition"); // unless a newer click took over
+    });
   }
 
   return (
