@@ -44,7 +44,7 @@ export const profile = {
     "A Computer Science student at Biliran Province State University with a passion for application design and crafting clean, user-friendly digital layouts.",
   photo: profilePhoto,
   email: "villanuevasarahjane59@gmail.com",
-  instagram: { handle: "sarah_jeyn", url: "https://www.instagram.com/sarah_jeyn/" },
+  instagram: { handle: "sara_jeyn", url: "https://www.instagram.com/sara_jeyn/" },
   // Rendered from assets/resume/resume.html; shown in the view-only viewer
   resume: resumeView,
   location: "Masagaosao, Kawayan, Biliran",
