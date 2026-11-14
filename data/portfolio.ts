@@ -47,7 +47,7 @@ export const profile = {
   instagram: { handle: "sara_jeyn", url: "https://www.instagram.com/sara_jeyn?srtk=cWx1NTF60XM1aWU5" },
   // Shown as a logo button only; the address itself is never printed on the page.
   github: { url: "https://github.com/villanuevasarahjane59-ctrl" },
-  // Rendered from assets/resume/resume.html; shown in the view-only viewer
+  // Rendered from assets/resume/resume.html (content of assets/resume/Resume-OJT.docx); shown in the view-only viewer
   resume: resumeView,
   location: "Masagaosao, Kawayan, Biliran",
 };
