@@ -1,16 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 
 import type { ProjectImage, ProjectScreen } from "@/data/portfolio";
 import { Icon } from "./Icon";
 
-// One device mockup per screen (e.g. poster → login → homepage). The full-screen viewer shows
-// the same mockup, only larger, so what you see on the page is what you see when zoomed.
+// One device mockup per screen (e.g. poster → login → homepage). Tablets and desktops show every screen
+// side by side in one equal row; phones show one large screen at a time with numbered buttons to switch.
+// The full-screen viewer shows the same mockup, only larger, so what you see is what you see when zoomed.
 export function ProjectGallery({ screens, title }: { screens: ProjectScreen[]; title: string }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
+  const [shown, setShown] = useState(0); // the screen on display on phones
   const current = screens[index];
 
   function open(i: number) {
@@ -29,17 +31,22 @@ export function ProjectGallery({ screens, title }: { screens: ProjectScreen[]; t
 
   return (
     <>
-      <ol className="flex flex-wrap justify-center gap-5">
+      <ol
+        className="grid gap-4 sm:grid-cols-(--cols) lg:gap-5"
+        style={{ "--cols": `repeat(${screens.length}, minmax(0, 1fr))` } as CSSProperties}
+      >
         {screens.map((screen, i) => (
           <li
             key={screen.caption}
-            className="group/tile w-full rounded-2xl border border-line bg-bg-alt p-3.5 transition-[border-color,box-shadow] duration-300 hover:border-accent hover:shadow-[0_14px_34px_-14px_rgb(252_198_60/0.6)] sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
+            className={`group/tile min-w-0 rounded-2xl border border-line bg-bg-alt p-3 transition-[border-color,box-shadow] duration-300 hover:border-accent hover:shadow-[0_14px_34px_-14px_rgb(252_198_60/0.6)] sm:p-3.5 ${
+              i === shown ? "" : "max-sm:hidden"
+            }`}
           >
-            <h4 className="flex items-center gap-2.5 text-sm font-semibold text-fg">
-              <span className="grid size-6 place-items-center rounded-full bg-accent text-[11px] text-on-accent">
+            <h4 className="flex min-w-0 items-center gap-2.5 text-sm font-semibold text-fg">
+              <span className="grid size-6 shrink-0 place-items-center rounded-full bg-accent text-[11px] text-on-accent">
                 {i + 1}
               </span>
-              {screen.caption}
+              <span className="truncate">{screen.caption}</span>
             </h4>
             <button
               type="button"
@@ -55,6 +62,28 @@ export function ProjectGallery({ screens, title }: { screens: ProjectScreen[]; t
           </li>
         ))}
       </ol>
+
+      {/* Phones: numbered buttons to switch between the screens */}
+      {screens.length > 1 && (
+        <div className="mt-4 flex justify-center gap-2 sm:hidden">
+          {screens.map((screen, i) => (
+            <button
+              key={screen.caption}
+              type="button"
+              onClick={() => setShown(i)}
+              aria-label={`Show ${screen.caption}`}
+              aria-current={i === shown ? "true" : undefined}
+              className={`grid size-9 place-items-center rounded-full text-sm font-semibold transition-colors ${
+                i === shown
+                  ? "bg-accent text-on-accent shadow-[0_0_14px_rgb(252_198_60/0.45)]"
+                  : "border border-line bg-bg-alt text-muted hover:border-accent hover:text-fg"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
 
       <dialog
         ref={dialogRef}
@@ -109,7 +138,7 @@ export function ProjectGallery({ screens, title }: { screens: ProjectScreen[]; t
 }
 
 const imageSizes = {
-  tile: { monitor: "(min-width: 1024px) 300px, (min-width: 640px) 45vw, 85vw", phone: "(min-width: 1024px) 90px, 25vw" },
+  tile: { monitor: "(min-width: 1024px) 300px, (min-width: 640px) 30vw, 85vw", phone: "(min-width: 1024px) 90px, 25vw" },
   large: { monitor: "(min-width: 1200px) 950px, 90vw", phone: "(min-width: 1200px) 270px, 25vw" },
 };
 

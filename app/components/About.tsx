@@ -3,7 +3,7 @@ import { SectionHeading } from "./SectionHeading";
 
 export function About() {
   return (
-    <section id="about" className="bg-bg-alt py-24 sm:py-28">
+    <section id="about" className="py-24 sm:py-28">
       <div className="shell grid gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
           <SectionHeading eyebrow="About Me" title="Designing with passion, learning every day." />

@@ -4,14 +4,17 @@ import { profile } from "@/data/portfolio";
 import { CopyEmailButton } from "./CopyEmailButton";
 import { Icon, type IconName } from "./Icon";
 import { Eyebrow } from "./SectionHeading";
+import { SocialLinks } from "./SocialLinks";
 
+// Right-hand panel follows assets/design-references/contact design .png: plain icon rows for email
+// and address, then a centered row of logo-only GitHub and Instagram buttons.
 export function Contact() {
   return (
-    <section id="contact" className="bg-bg-alt py-24 sm:py-28">
+    <section id="contact" className="bg-section-alt py-24 sm:py-28">
       <div className="shell">
         <div
           data-reveal
-          className="relative grid grid-cols-1 gap-10 overflow-hidden rounded-3xl bg-hero px-6 py-12 shadow-card ring-1 ring-line sm:px-12 sm:py-16 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-14"
+          className="relative grid grid-cols-1 gap-10 overflow-hidden rounded-3xl bg-hero px-6 py-12 shadow-card ring-1 ring-line sm:px-12 sm:py-16 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-14"
         >
           <div
             aria-hidden="true"
@@ -29,48 +32,38 @@ export function Contact() {
             </p>
           </div>
 
-          <ul className="relative space-y-3">
-            <ContactRow icon="mail" label="Email">
-              <a
-                href={`mailto:${profile.email}`}
-                className="min-w-0 font-semibold break-all text-fg underline-offset-4 hover:text-accent-ink hover:underline"
-              >
-                {profile.email}
-              </a>
-              <CopyEmailButton email={profile.email} />
-            </ContactRow>
-            <ContactRow icon="instagram" label="Instagram">
-              <a
-                href={profile.instagram.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`@${profile.instagram.handle} on Instagram (opens in a new tab)`}
-                className="inline-flex items-center gap-1.5 font-semibold text-fg underline-offset-4 hover:text-accent-ink hover:underline"
-              >
-                @{profile.instagram.handle}
-                <Icon name="external" className="size-3.5 text-muted" />
-              </a>
-            </ContactRow>
-            <ContactRow icon="pin" label="Address">
-              <p className="font-semibold text-fg">{profile.location}</p>
-            </ContactRow>
-          </ul>
+          <div className="relative rounded-2xl border border-line bg-surface/80 p-6 shadow-card backdrop-blur-sm sm:p-8">
+            <ul className="space-y-5">
+              <ContactLine icon="mail" label="Email">
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="min-w-0 font-medium [overflow-wrap:anywhere] text-fg underline-offset-4 hover:text-accent-ink hover:underline"
+                >
+                  {/* On narrow screens the address wraps before the "@", not in the middle of a word */}
+                  {profile.email.split("@")[0]}
+                  <wbr />@{profile.email.split("@")[1]}
+                </a>
+                <CopyEmailButton email={profile.email} />
+              </ContactLine>
+              <ContactLine icon="pin" label="Address">
+                <p className="font-medium text-fg">{profile.location}</p>
+              </ContactLine>
+            </ul>
+
+            <SocialLinks className="mt-6 justify-center border-t border-line pt-6" />
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function ContactRow({ icon, label, children }: { icon: IconName; label: string; children: ReactNode }) {
+function ContactLine({ icon, label, children }: { icon: IconName; label: string; children: ReactNode }) {
   return (
-    <li className="flex items-center gap-4 rounded-2xl border border-line bg-surface p-4 shadow-card">
-      <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-on-accent">
-        <Icon name={icon} className="size-5" />
-      </span>
-      <div className="min-w-0 flex-1">
-        <p className="text-xs font-semibold tracking-[0.15em] text-muted uppercase">{label}</p>
-        <div className="mt-0.5 flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">{children}</div>
-      </div>
+    <li className="flex items-start gap-4">
+      <Icon name={icon} className="mt-0.5 size-6 shrink-0 text-accent-ink" />
+      <span className="sr-only">{label}:</span>
+      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-2">{children}</div>
     </li>
   );
 }

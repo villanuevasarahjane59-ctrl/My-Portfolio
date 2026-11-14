@@ -10,7 +10,7 @@ import { ViewOnlyButton } from "./ViewOnly";
 // already sharp when it slides into view.
 export function Beyond() {
   return (
-    <section id="beyond" className="overflow-x-clip bg-bg-alt py-24 sm:py-28">
+    <section id="beyond" className="overflow-x-clip py-24 sm:py-28">
       <div className="shell">
         <SectionHeading
           eyebrow="Beyond the Code"

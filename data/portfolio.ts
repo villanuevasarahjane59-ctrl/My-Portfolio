@@ -45,6 +45,8 @@ export const profile = {
   photo: profilePhoto,
   email: "villanuevasarahjane59@gmail.com",
   instagram: { handle: "sara_jeyn", url: "https://www.instagram.com/sara_jeyn?srtk=cWx1NTF60XM1aWU5" },
+  // Shown as a logo button only; the address itself is never printed on the page.
+  github: { url: "https://github.com/villanuevasarahjane59-ctrl" },
   // Rendered from assets/resume/resume.html; shown in the view-only viewer
   resume: resumeView,
   location: "Masagaosao, Kawayan, Biliran",
@@ -110,12 +112,6 @@ export type SkillGroup = {
 };
 
 export const skillGroups: SkillGroup[] = [
-  {
-    title: "Design",
-    icon: "pen",
-    description: "Designing clear, user-friendly interfaces and layouts.",
-    items: ["UI Design", "Layout Design"],
-  },
   {
     title: "Programming",
     icon: "code",
@@ -372,6 +368,6 @@ export const navItems = [
   { id: "certificates", label: "Certificates", icon: "award" },
   { id: "about", label: "About", icon: "user" },
   { id: "education", label: "Education", icon: "cap" },
-  { id: "beyond", label: "Beyond the Code", icon: "camera" },
+  { id: "beyond", label: "Beyond", icon: "camera" },
   { id: "contact", label: "Contact", icon: "mail" },
 ] as const;

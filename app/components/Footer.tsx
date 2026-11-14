@@ -1,10 +1,11 @@
 import { navItems, profile } from "@/data/portfolio";
 import { Icon } from "./Icon";
+import { SocialLinks } from "./SocialLinks";
 
 export function Footer() {
   // Bottom padding keeps the floating "Back to top" button clear of the footer text.
   return (
-    <footer className="border-t border-line bg-bg pb-40 lg:pb-20">
+    <footer className="border-t border-line bg-bg/80 pb-40 lg:pb-20">
       <div className="shell grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr]">
         <div>
           <a href="#home" className="inline-block">
@@ -41,21 +42,12 @@ export function Footer() {
                 <span className="truncate">{profile.email}</span>
               </a>
             </li>
-            <li>
-              <a
-                href={profile.instagram.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 text-muted transition hover:text-accent-ink"
-              >
-                <Icon name="instagram" className="size-4 shrink-0 text-accent-ink" />@{profile.instagram.handle}
-              </a>
-            </li>
             <li className="inline-flex items-center gap-2.5 text-muted">
               <Icon name="pin" className="size-4 shrink-0 text-accent-ink" />
               {profile.location}
             </li>
           </ul>
+          <SocialLinks size="sm" className="mt-5" />
         </div>
       </div>
     </footer>

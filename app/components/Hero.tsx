@@ -6,7 +6,7 @@ import { ViewOnlyButton } from "./ViewOnly";
 
 export function Hero() {
   return (
-    <section id="home" className="relative overflow-clip bg-hero pt-28 pb-36 sm:pt-32 lg:pb-44">
+    <section id="home" className="relative overflow-clip bg-hero/60 pt-28 pb-36 sm:pt-32 lg:pb-44">
       <WaveLines />
 
       <div className="shell relative grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">

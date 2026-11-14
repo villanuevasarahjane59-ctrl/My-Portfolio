@@ -27,7 +27,7 @@ Poppins is self-hosted from `app/fonts/` (SIL Open Font License), so the site bu
 
 ## Navigation
 
-On large screens the menu is an upright bar on the left, styled after `assets/design-references/bottom-nav.jpg`; on phones the same design sits at the bottom of the screen.
+On large screens the menu is an upright bar on the left, styled after `assets/design-references/bottom-nav.jpg`; on phones and tablets the same design sits at the bottom of the screen. Every item has the same icon size, label and spacing; a glowing circle slides to the current section.
 
 ## Project mockups
 
